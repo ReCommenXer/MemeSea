@@ -2906,11 +2906,10 @@ spawn(function()
                         if dodgeValue > 0 then
                             repeat
                                 task.wait()
-								if not monster.Humanoid[game.Players.LocalPlayer.Name] then
-									EquipWeapon(CheckItem)
-									game:GetService("VirtualUser"):CaptureController()
-									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
-								end
+						EquipWeapon(CheckItem)
+						game:GetService("VirtualUser"):CaptureController()
+						game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
+			
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(3, 0, 0))
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value == 0
                         else
