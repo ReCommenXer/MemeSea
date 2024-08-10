@@ -1,3 +1,5 @@
+repeat wait() until game:IsLoaded()
+game:GetService("ReplicatedStorage").OtherEvent.MainEvents.TeamChoose:FireServer("Floppa")
 local ZenHub = Instance.new("ScreenGui")
 local Open = Instance.new("TextButton")
 local fuckshit = Instance.new("UICorner")
@@ -2930,12 +2932,11 @@ spawn(function()
 								end
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(3, 0, 0))
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value == 0
-                        elseif player.PlayerData.Dodge.Value == 0 then
-                            repeat
+                        else
                                 task.wait()
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(0, 60, 0))
-                                if Auto_Instinct_Hop == true then
-                                    game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+                                if player.PlayerData.Dodge.Value == 0 and Auto_Instinct_Hop == true then
+                                    game:GetService("TeleportService"):Teleport(game.PlaceId, GetNamePlayer)
                                 end
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value > 0
                         end
