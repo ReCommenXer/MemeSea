@@ -2797,16 +2797,20 @@ end
 spawn(function()
     while wait() do
         if Auto_Instinct then
-	   local Noclip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyClip")
+			local GetName = game.Players.LocalPlayer.Name
+			local NamePlayer = game.Workspace.Character:FindFirstChild(GetName)
+	   local Noclip = NamePlayer.HumanoidRootPart:FindFirstChild("BodyClip")
             if not Noclip then
                 Noclip = Instance.new("BodyVelocity")
                 Noclip.Name = "BodyClip"
-                Noclip.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                Noclip.Parent = NamePlayer.HumanoidRootPart
                 Noclip.MaxForce = Vector3.new(100000, 100000, 100000)
                 Noclip.Velocity = Vector3.new(0, 0, 0)
             end
         else
-            local Noclip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyClip")
+			local GetName = game.Players.LocalPlayer.Name
+			local NamePlayer = game.Workspace.Character:FindFirstChild(GetName)
+            local Noclip = NamePlayer.HumanoidRootPart:FindFirstChild("BodyClip")
             if Noclip then
                 Noclip:Destroy()
             end
