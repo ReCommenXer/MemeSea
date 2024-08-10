@@ -2855,13 +2855,7 @@ Main:AddLabelLeft("Map : Meme Sea")
 
 Main:AddDropdownRight("Select Weapon",{"Melle","Sword","Power"},function(a)
     WeaPon_Select = a
-	if WeaPon_Select == "Melle" then
-		CheckItem = game.Players.LocalPlayer.PlayerData.CombatEquip.Value
-	elseof WeaPon_Select == "Power" then
-		CheckItem = game.Players.LocalPlayer.PlayerData.PowerEquip.Value
-	elseof WeaPon_Select == "Sword" then
-		CheckItem = game.Players.LocalPlayer.PlayerData.SwordEquip.Value
-	end
+	
 end)
 
 IslandList = {}
@@ -2900,7 +2894,7 @@ spawn(function()
             if Auto_Instinct then
                 local player = game:GetService("Players").LocalPlayer
                 local dodgeLevel = player.PlayerData.DodgeLevel.Value
-
+				local GetNamePlayer = player.Name
                 if dodgeLevel == 4 then
                     game:GetService("StarterGui"):SetCore("SendNotification", {
                         Icon = "rbxassetid://0",
@@ -2916,7 +2910,7 @@ spawn(function()
                         if dodgeValue > 0 then
                             repeat
                                 task.wait()
-								if not monster.Humanoid[game.Players.LocalPlayer.Name] then
+								if not monster.Humanoid:FindFirstChild(GetNamePlayer) then
 									EquipWeapon(CheckItem)
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
