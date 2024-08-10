@@ -2836,11 +2836,11 @@ spawn(function()
                     task.wait()
                     local player = game:GetService("Players").LocalPlayer
                     if player.PlayerData.Dodge.Value > 0 then
-                        game:GetService("VirtualUser"):CaptureController()
-                        game:GetService("VirtualUser"):SetKeyDown('E')
-                        wait(2)
-                        game:GetService("VirtualUser"):SetKeyUp('E')
-                    end
+						local args = {
+							[1] = "Instinct"
+						}
+						
+						game:GetService("ReplicatedStorage").OtherEvent.MainEvents.Ability:InvokeServer(unpack(args))
                 until player.PlayerData.Dodge.Value == 0 or not Auto_Instinct
             end
         end)
@@ -2851,7 +2851,7 @@ end)
 spawn(function()
     pcall(function()
         while wait() do
-            if _G.AutoObservation then
+            if Auto_Instinct then
                 local player = game:GetService("Players").LocalPlayer
                 local dodgeLevel = player.PlayerData.DodgeLevel.Value
 
@@ -2865,7 +2865,7 @@ spawn(function()
                 else
                     local monster = game:GetService("Workspace").Monster:FindFirstChild("Pink Absorber")
                     if monster then
-                        local dodgeValue = player.PlayerData.Dodge.Value
+                        local dodgeValue = player.PlayerDaat.Dodge.Value
 
                         if dodgeValue > 0 then
                             repeat
@@ -2915,7 +2915,7 @@ spawn(function()
                             pcall(function()
                                 repeat wait()
                                     sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
-                                    TP(v.HumanoidRootPart.CFrame)
+                                    v.HumanoidRootPart.Head:Destroy()
                                     v.Humanoid.WalkSpeed = 0
                                     v.HumanoidRootPart.CanCollide = false
                                 until not Kill_Aura or not v.Parent or v.Humanoid.Health <= 0
