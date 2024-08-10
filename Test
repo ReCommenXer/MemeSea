@@ -2880,7 +2880,8 @@ spawn(function()
         end)
     end
 end)
-local NamePlayer = game.Players.LocalPlayer.Name
+
+
 
 -- Function for Auto Observation
 spawn(function()
@@ -2905,7 +2906,7 @@ spawn(function()
                         if dodgeValue > 0 then
                             repeat
                                 task.wait()
-								if not monster.Humanoid:FindFirstChild(NamePlayer) then
+								if not monster.Humanoid:FindFirstChild(game.Players.LocalPlayer.Name) then
 									EquipWeapon(CheckItem)
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
