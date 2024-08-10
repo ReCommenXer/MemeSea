@@ -2841,6 +2841,7 @@ spawn(function()
 						}
 						
 						game:GetService("ReplicatedStorage").OtherEvent.MainEvents.Ability:InvokeServer(unpack(args))
+					end
                 until player.PlayerData.Dodge.Value == 0 or not Auto_Instinct
             end
         end)
@@ -2865,7 +2866,7 @@ spawn(function()
                 else
                     local monster = game:GetService("Workspace").Monster:FindFirstChild("Pink Absorber")
                     if monster then
-                        local dodgeValue = player.PlayerDaat.Dodge.Value
+                        local dodgeValue = player.PlayerData.Dodge.Value
 
                         if dodgeValue > 0 then
                             repeat
