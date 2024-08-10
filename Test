@@ -2793,7 +2793,7 @@ end
 function TP(Pos)
    local GetName = game.Players.LocalPlayer.Name
    local NamePlayer = game.Workspace.Character:FindFirstChild(GetName)
-    NamePlayer.HumanoidRootPart.Position = Vector3.new(Pos)
+    NamePlayer.HumanoidRootPart.CFrame = Pos
 end
 
   local RenUi = Update:AddWindow("RebornXer Hub","10039618734",Enum.KeyCode.RightControl)
@@ -2823,6 +2823,75 @@ for i,v in pairs(game:GetService("Workspace").Location.SpawnLocations:GetChildre
     table.insert(IslandList,v.Name)
 end
 
+Main:AddToggleLeft("Auto Instinct",Auto_Instinct,function(a)
+    Auto_Instinct = a
+end)
+
+-- Function for Auto Instinct
+spawn(function()
+    while wait() do
+        pcall(function()
+            if Auto_Instinct then
+                repeat
+                    task.wait()
+                    local player = game:GetService("Players").LocalPlayer
+                    if player.PlayerData.Dodge.Value > 0 then
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):SetKeyDown('E')
+                        wait(2)
+                        game:GetService("VirtualUser"):SetKeyUp('E')
+                    end
+                until player.PlayerData.Dodge.Value == 0 or not Auto_Instinct
+            end
+        end)
+    end
+end)
+
+-- Function for Auto Observation
+spawn(function()
+    pcall(function()
+        while wait() do
+            if _G.AutoObservation then
+                local player = game:GetService("Players").LocalPlayer
+                local dodgeLevel = player.PlayerData.DodgeLevel.Value
+
+                if dodgeLevel == 4 then
+                    game:GetService("StarterGui"):SetCore("SendNotification", {
+                        Icon = "rbxassetid://0",
+                        Title = "Instinct",
+                        Text = "You Have Max Points"
+                    })
+                    wait(2)
+                else
+                    local monster = game:GetService("Workspace").Monster:FindFirstChild("Pink Absorber")
+                    if monster then
+                        local dodgeValue = player.PlayerData.Dodge.Value
+
+                        if dodgeValue > 0 then
+                            repeat
+                                task.wait()
+                                TP(monster.HumanoidRootPart.CFrame * CFrame.new(3, 0, 0))
+                            until Auto_Instinct == false or player.PlayerData.Dodge.Value == 0
+                        else
+                            repeat
+                                task.wait()
+                                TP(monster.HumanoidRootPart.CFrame * CFrame.new(0, 60, 0))
+                                wait(1)
+                                if player.PlayerData.Dodge.Value == 0 and Auto_Instinct_Hop == true then
+                                    game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+                                end
+                            until Auto_Instinct == false or player.PlayerData.Dodge.Value > 0
+                        end
+                    else
+                        TP(CFrame.new(1949.75708, 121.892494, 2986.96606))
+                    end
+                end
+            end
+        end
+    end)
+end)
+
+
 
 Teleport:AddDropdownRight("Select Island",IslandList,function(a)
     Island_Select = a
@@ -2846,7 +2915,7 @@ spawn(function()
                             pcall(function()
                                 repeat wait()
                                     sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
-                                    v.HumanoidRootPart.Head:Destroy()
+                                    TP(v.HumanoidRootPart.CFrame)
                                     v.Humanoid.WalkSpeed = 0
                                     v.HumanoidRootPart.CanCollide = false
                                 until not Kill_Aura or not v.Parent or v.Humanoid.Health <= 0
