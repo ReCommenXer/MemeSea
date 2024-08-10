@@ -2853,10 +2853,20 @@ Main:AddLabelLeft("Map : Meme Sea")
     Main:AddLabelLeft("Day : "..Date)
    Main:AddLineLeft("")
 
-Main:AddDropdownRight("Select Weapon",{"Melle","Sword","Power"},function(a)
+   Main:AddDropdownRight("Select Weapon", {"Melle", "Sword", "Power"}, function(a)
     WeaPon_Select = a
-	
+    if WeaPon_Select == "Melle" then
+        CheckItem = game.Players.LocalPlayer.PlayerData.CombatEquip.Value
+    elseif WeaPon_Select == "Power" then
+        CheckItem = game.Players.LocalPlayer.PlayerData.PowerEquip.Value
+    elseif WeaPon_Select == "Sword" then
+        CheckItem = game.Players.LocalPlayer.PlayerData.SwordEquip.Value
+	else
+		CheckItem = game.Players.LocalPlayer.PlayerData.CombatEquip.Value
+    end
+    print("CheckItem:", CheckItem)  -- ตรวจสอบค่าที่ได้
 end)
+
 
 IslandList = {}
     
@@ -2868,6 +2878,9 @@ Main:AddToggleLeft("Auto Instinct",Auto_Instinct,function(a)
     Auto_Instinct = a
 end)
 
+Main:AddToggleLeft("Auto Instinct Hop",Auto_Instinct_Hop,function(a)
+	Auto_Instinct_Hop = a
+end)
 -- Function for Auto Instinct
 spawn(function()
     while wait() do
@@ -2917,12 +2930,11 @@ spawn(function()
 								end
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(3, 0, 0))
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value == 0
-                        else
+                        elseif player.PlayerData.Dodge.Value == 0 then
                             repeat
                                 task.wait()
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(0, 60, 0))
-                                wait(1)
-                                if player.PlayerData.Dodge.Value == 0 and Auto_Instinct_Hop == true then
+                                if Auto_Instinct_Hop == true then
                                     game:GetService("TeleportService"):Teleport(game.PlaceId, player)
                                 end
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value > 0
