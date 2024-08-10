@@ -2816,6 +2816,16 @@ function TP(Pos)
     NamePlayer.HumanoidRootPart.CFrame = Pos
 end
 
+function UnEquipWeapon(Weapon)
+	if game.Players.LocalPlayer.Character:FindFirstChild(Weapon) then
+		_G.NotAutoEquip = true
+		wait(.5)
+		game.Players.LocalPlayer.Character:FindFirstChild(Weapon).Parent = game.Players.LocalPlayer.Backpack
+		wait(.1)
+		_G.NotAutoEquip = false
+	end
+end
+
 function EquipWeapon(ToolSe)
 	if not _G.NotAutoEquip then
 		if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
@@ -2906,10 +2916,11 @@ spawn(function()
                         if dodgeValue > 0 then
                             repeat
                                 task.wait()
-						EquipWeapon(CheckItem)
-						game:GetService("VirtualUser"):CaptureController()
-						game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
-			
+								if not monster.Humanoid[game.Players.LocalPlayer.Name] then
+									EquipWeapon(CheckItem)
+									game:GetService("VirtualUser"):CaptureController()
+									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
+								end
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(3, 0, 0))
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value == 0
                         else
