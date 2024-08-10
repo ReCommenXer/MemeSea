@@ -2800,7 +2800,7 @@ end
 
     local Main = RenUi:AddTab("Main","6026568198")
     local Teleport = RenUi:AddTab("Teleport","6035190846")
-    local Shop = RenUi:AddTab("Shop","6031265976")
+    local Raid = RenUi:AddTab("Raid","6031265976")
     local Misc = RenUi:AddTab("Misc","6034509993")
     local Setting = RenUi:AddTab("","")
     
@@ -2830,4 +2830,31 @@ end)
 
 Teleport:AddButtonRight("Teleport island",function()
     TP(game:GetService("Workspace").Location.SpawnLocations:FindFirstChild(Island_Select).CFrame)
+end)
+
+Raid:AddToggleLeft("kill Aura",Kill_Aura,function(a)
+    Kill_Aura = a
+end)
+
+spawn(function()
+    pcall(function() 
+        while wait() do
+            if Kill_Aura then
+                if game:GetService("Players").LocalPlayer.PlayerGui.RaidGui.RaidFrame.TimeLeft.Visible == true then
+                    for i,v in pairs(game:GetService("Workspace").Monster:GetDescendants()) do
+                        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                            pcall(function()
+                                repeat wait()
+                                    sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                                    v.HumanoidRootPart.Head:Destroy()
+                                    v.Humanoid.WalkSpeed = 0
+                                    v.HumanoidRootPart.CanCollide = false
+                                until not Kill_Aura or not v.Parent or v.Humanoid.Health <= 0
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
 end)
