@@ -2836,11 +2836,7 @@ spawn(function()
                     task.wait()
                     local player = game:GetService("Players").LocalPlayer
                     if player.PlayerData.Dodge.Value > 0 then
-						local args = {
-							[1] = "Instinct"
-						}
-						
-						game:GetService("ReplicatedStorage").OtherEvent.MainEvents.Ability:InvokeServer(unpack(args))
+						game:GetService("ReplicatedStorage").OtherEvent.MainEvents.Ability:InvokeServer("Instinct")
 					end
                 until player.PlayerData.Dodge.Value == 0 or not Auto_Instinct
             end
