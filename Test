@@ -2790,10 +2790,40 @@ end
 	return uitab
 end
 
+spawn(function()
+    while wait() do
+        if Auto_Instinct then
+	   local Noclip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyClip")
+            if not Noclip then
+                Noclip = Instance.new("BodyVelocity")
+                Noclip.Name = "BodyClip"
+                Noclip.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                Noclip.MaxForce = Vector3.new(100000, 100000, 100000)
+                Noclip.Velocity = Vector3.new(0, 0, 0)
+            end
+        else
+            local Noclip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyClip")
+            if Noclip then
+                Noclip:Destroy()
+            end
+        end
+    end
+end)
+
 function TP(Pos)
    local GetName = game.Players.LocalPlayer.Name
    local NamePlayer = game.Workspace.Character:FindFirstChild(GetName)
     NamePlayer.HumanoidRootPart.CFrame = Pos
+end
+
+function EquipWeapon(ToolSe)
+	if not _G.NotAutoEquip then
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+			Tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
+			wait(.1)
+			game.Players.LocalPlayer.Character.Humanoid:EquipTool(Tool)
+		end
+	end
 end
 
   local RenUi = Update:AddWindow("RebornXer Hub","10039618734",Enum.KeyCode.RightControl)
@@ -2815,6 +2845,13 @@ Main:AddLabelLeft("Map : Meme Sea")
 
 Main:AddDropdownRight("Select Weapon",{"Melle","Sword","Power"},function(a)
     WeaPon_Select = a
+	if WeaPon_Select == "Melle" then
+		CheckItem = game.Players.LocalPlayer.PlayerData.CombatEquip.Value
+	elseof WeaPon_Select == "Power" then
+		CheckItem = game.Players.LocalPlayer.PlayerData.PowerEquip.Value
+	elseof WeaPon_Select == "Sword" then
+		CheckItem = game.Players.LocalPlayer.PlayerData.SwordEquip.Value
+	end
 end)
 
 IslandList = {}
@@ -2843,6 +2880,7 @@ spawn(function()
         end)
     end
 end)
+local NamePlayer = game.Players.LocalPlayer.Name
 
 -- Function for Auto Observation
 spawn(function()
@@ -2867,6 +2905,11 @@ spawn(function()
                         if dodgeValue > 0 then
                             repeat
                                 task.wait()
+								if not monster.Humanoid:FindFirstChild(NamePlayer) then
+									EquipWeapon(CheckItem)
+									game:GetService("VirtualUser"):CaptureController()
+									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
+								end
                                 TP(monster.HumanoidRootPart.CFrame * CFrame.new(3, 0, 0))
                             until Auto_Instinct == false or player.PlayerData.Dodge.Value == 0
                         else
