@@ -2833,9 +2833,11 @@ end
 function EquipWeapon(ToolSe)
 	if not _G.NotAutoEquip then
 		if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+			local GetName = game.Players.LocalPlayer.Name
+   local NamePlayer = game.Workspace.Character:FindFirstChild(GetName)
 			Tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
 			wait(.1)
-			game.Players.LocalPlayer.Character.Humanoid:EquipTool(Tool)
+			NamePlayer:EquipTool(Tool)
 		end
 	end
 end
